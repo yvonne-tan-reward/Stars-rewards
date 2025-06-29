@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🌟 Star Reward System 🌟</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vibrant-pink: #FF6B9E;
+            --vibrant-blue: #5BC0EB;
+            --vibrant-yellow: #FFE45C;
+            --vibrant-green: #7AE582;
+            --vibrant-purple: #9B5DE5;
+            --vibrant-orange: #F77F00;
+        }
+        
+        body {
+            font-family: 'Patrick Hand', cursive;
+            background: linear-gradient(135deg, var(--vibrant-pink), var(--vibrant-blue));
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            text-align: center;
+            color: #2A2D34;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 4px solid white;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.8em;
+            margin: 5px 0 15px 0;
+            background: linear-gradient(45deg, var(--vibrant-purple), var(--vibrant-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .student-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--vibrant-blue);
+            border-right: 4px solid var(--vibrant-pink);
+            touch-action: manipulation;
+        }
+        
+        .student-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5em;
+            color: #2A2D34;
+            margin: 5px 0;
+        }
+        
+        button {
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(45deg, var(--vibrant-blue), var(--vibrant-purple));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            margin: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 1em;
+            min-width: 120px;
+            min-height: 44px;
+            -webkit-appearance: none;
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            background: #cccccc;
+        }
+
+        input {
+            font-family: 'Patrick Hand', cursive;
+            padding: 12px;
+            border-radius: 20px;
+            border: 2px solid var(--vibrant-blue);
+            width: 60%;
+            max-width: 250px;
+            margin-right: 8px;
+            font-size: 1em;
+            -webkit-appearance: none;
+        }
+
+        .progress-container {
+            height: 20px;
+            background-color: rgba(224, 247, 250, 0.7);
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid white;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                var(--vibrant-pink), 
+                var(--vibrant-orange), 
+                var(--vibrant-yellow), 
+                var(--vibrant-green), 
+                var(--vibrant-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+            -webkit-background-clip: padding-box;
+        }
+
+        .stars-display {
+            font-size: 1.3em;
+            color: #FFD700;
+            margin: 10px 0;
+            word-break: break-word;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .reward-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 350px;
+            width: 85%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .reward-option {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                max-height: 95vh;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin: 5px 0 10px 0;
+            }
+            
+            .student-name {
+                font-size: 1.3em;
+            }
+            
+            button {
+                padding: 12px 15px;
+                font-size: 0.95em;
+                min-width: 100px;
+                margin: 5px;
+            }
+            
+            input {
+                width: 100%;
+                margin-bottom: 12px;
+                margin-right: 0;
+                font-size: 1.1em;
+            }
+            
+            .progress-container {
+                height: 18px;
+                margin: 12px 0;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                width: 90%;
+            }
+            
+            .reward-option {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Star Reward System</h1>
+        
+        <div>
+            <input type="text" id="studentName" placeholder="Enter student name">
+            <button onclick="addStudent()">Add Student</button>
+        </div>
+        
+        <div id="studentList"></div>
+        
+        <div class="footer">
+            <p>Powered by www.ytcpg.com</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const REWARD_INTERVAL = 20;
+        const MAX_POINTS = 60;
+        const MAX_EARLY_DISMISSALS = 2;
+        
+        // Student data storage
+        let students = {};
+        let currentStudent = '';
+        
+        // Available small gifts
+        const SMALL_GIFTS = [
+            "Homework Pass",
+            "Sticker Pack",
+            "Bonus Story",
+            "Music Choice",
+            "Show & Tell"
+        ];
+        
+        // Initialize on page load
+        window.onload = function() {
+            loadData();
+            updateDisplay();
+            
+            // Focus the input field on load
+            document.getElementById('studentName').focus();
+        };
+        
+        // Data management
+        function loadData() {
+            try {
+                const saved = localStorage.getItem('starRewards');
+                if (saved) {
+                    students = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error("Error loading data:", e);
+                alert("Couldn't load saved data. Starting fresh.");
+                students = {};
+            }
+        }
+        
+        function saveData() {
+            try {
+                localStorage.setItem('starRewards', JSON.stringify(students));
+            } catch (e) {
+                console.error("Error saving data:", e);
+                alert("Couldn't save data. Try using regular browsing mode.");
+            }
+        }
+        
+        // Student management
+        function addStudent() {
+            const nameInput = document.getElementById('studentName');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert("Please enter a student name");
+                return;
+            }
+            
+            if (students[name]) {
+                alert("Student already exists!");
+                return;
+            }
+            
+            students[name] = {
+                points: 0,
+                redeemedPoints: 0,
+                earlyDismissals: 0,
+                gifts: []
+            };
+            
+            saveData();
+            updateDisplay();
+            nameInput.value = '';
+            nameInput.focus();
+        }
+        
+        function addPoint(name) {
+            if (students[name].points < MAX_POINTS) {
+                students[name].points++;
+                checkForReward(name);
+                saveData();
+                updateDisplay();
+            }
+        }
+        
+        function removePoint(name) {
+            if (students[name].points > 0) {
+                students[name].points--;
+                if (students[name].redeemedPoints > students[name].points) {
+                    students[name].redeemedPoints = Math.floor(students[name].points / REWARD_INTERVAL) * REWARD_INTERVAL;
+                }
+                saveData();
+                updateDisplay();
+            }
+        }
+        
+        // Reward system
+        function checkForReward(name) {
+            const availablePoints = students[name].points - students[name].redeemedPoints;
+            if (availablePoints >= REWARD_INTERVAL) {
+                currentStudent = name;
+                showRewardOptions();
+            }
+        }
+        
+        function showRewardOptions() {
+            const rewardOptions = [
+                { 
+                    name: "Small Gift", 
+                    action: function() { redeemReward('small-gift'); }
+                }
+            ];
+            
+            if (students[currentStudent].earlyDismissals < MAX_EARLY_DISMISSALS) {
+                rewardOptions.push({
+                    name: "Early Dismissal",
+                    action: function() { redeemReward('early-dismissal'); }
+                });
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'reward-modal';
+            
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+            
+            modalContent.innerHTML = `
+                <h2 style="font-family: 'Nunito', sans-serif; color: #6a4c93; font-size: 1.3em;">Choose Reward!</h2>
+                <p style="margin-bottom: 15px;">${currentStudent} earned a reward!</p>
+                <div id="rewardButtons"></div>
+                <button onclick="closeModal()" style="margin-top: 15px; background: var(--vibrant-pink); padding: 8px 15px;">Cancel</button>
+            `;
+            
+            const buttonsContainer = modalContent.querySelector('#rewardButtons');
+            rewardOptions.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'reward-option';
+                btn.textContent = option.name;
+                btn.onclick = option.action;
+                buttonsContainer.appendChild(btn);
+            });
+            
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('.reward-modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        function redeemReward(type) {
+            const student = students[currentStudent];
+            student.redeemedPoints += REWARD_INTERVAL;
+            
+            if (type === 'early-dismissal') {
+                student.earlyDismissals++;
+                student.gifts.push("Early Dismissal");
+                alert(`${currentStudent} earned Early Dismissal! (${MAX_EARLY_DISMISSALS - student.earlyDismissals} left)`);
+            } else {
+                const randomGift = SMALL_GIFTS[Math.floor(Math.random() * SMALL_GIFTS.length)];
+                student.gifts.push(randomGift);
+                alert(`${currentStudent} earned: ${randomGift}!`);
+            }
+            
+            if (student.points >= MAX_POINTS) {
+                student.points = 0;
+                student.redeemedPoints = 0;
+            }
+            
+            saveData();
+            updateDisplay();
+            closeModal();
+        }
+        
+        // Display functions
+        function updateDisplay() {
+            const container = document.getElementById('studentList');
+            container.innerHTML = '';
+            
+            const studentNames = Object.keys(students).sort();
+            
+            if (studentNames.length === 0) {
+                container.innerHTML = '<p style="text-align: center; margin: 20px;">No students added yet</p>';
+                return;
+            }
+            
+            studentNames.forEach(name => {
+                const student = students[name];
+                const availablePoints = student.points - student.redeemedPoints;
+                const progress = (availablePoints % REWARD_INTERVAL) / REWARD_INTERVAL * 100;
+                const canClaimReward = availablePoints >= REWARD_INTERVAL;
+                const starsCount = Math.min(student.points, 30);
+                
+                const studentCard = document.createElement('div');
+                studentCard.className = 'student-card';
+                studentCard.innerHTML = `
+                    <div class="student-name">${name}</div>
+                    <div class="stars-display">${'⭐'.repeat(starsCount)}${starsCount < student.points ? ` (+${student.points-starsCount})` : ''}</div>
+                    <p>Points: ${student.points} (${availablePoints} available)</p>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                    <p>${availablePoints % REWARD_INTERVAL || REWARD_INTERVAL}/${REWARD_INTERVAL} to reward</p>
+                    
+                    <div>
+                        <button onclick="addPoint('${name}')">+ Point</button>
+                        <button onclick="removePoint('${name}')">- Point</button>
+                        
+                        ${canClaimReward ? 
+                          `<button style="background: linear-gradient(45deg, var(--vibrant-purple), var(--vibrant-pink));" onclick="checkForReward('${name}')">
+                             🎁 Claim
+                           </button>` : 
+                          `<button disabled>
+                             ${student.points >= MAX_POINTS ? 'Max points!' : 'Earn more!'}
+                           </button>`}
+                    </div>
+                           
+                    ${student.gifts.length > 0 ? 
+                      `<p style="margin-top: 10px; font-size: 0.9em;"><strong>Rewards:</strong> ${student.gifts.join(', ')}</p>` : ''}
+                    ${student.earlyDismissals > 0 ? 
+                      `<p style="font-size: 0.9em;"><strong>Early outs:</strong> ${student.earlyDismissals}/${MAX_EARLY_DISMISSALS}</p>` : ''}
+                `;
+                
+                container.appendChild(studentCard);
+            });
+        }
+    </script>
+</body>
+</html>
